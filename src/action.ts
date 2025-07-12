@@ -82,6 +82,7 @@ export default async (options: Input): Promise<Output> => {
   const cacheKey = `${cacheKeyBase}-${options.extraKey ?? "default"}`
   if (cacheEnabled) {
     const cacheRestored = await restoreCache([bunPath, cachePath], cacheKey, [cacheKeyBase]);
+    info(`cacheRestored: ${cacheRestored}, cacheKey: ${cacheKey}, cacheKeyBase: ${cacheKeyBase}`)
     if (cacheRestored) {
       revision = await getRevision(bunPath);
       if (revision) {
