@@ -78,8 +78,8 @@ export default async (options: Input): Promise<Output> => {
   let cacheBaseHit = false;
   let cacheHit = false;
 
-  const cacheKeyBase = createHash("sha1").update(url).digest("base64")
-  const cacheKey = `${cacheKeyBase}-${options.extraKey ?? "default"}`
+  const cacheKeyBase = `bun-${createHash("sha1").update(url).digest("base64")}`;
+  const cacheKey = `${cacheKeyBase}-${options.extraKey ?? "default"}`;
   if (cacheEnabled) {
     const cacheRestored = await restoreCache([bunPath, cachePath], cacheKey);
     info(`cacheRestored: ${cacheRestored}, cacheKey: ${cacheKey}`)
