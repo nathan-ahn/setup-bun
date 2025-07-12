@@ -41,6 +41,7 @@ export type CacheState = {
   cacheEnabled: boolean;
   cacheHit: boolean;
   bunPath: string;
+  cachePath: string;
   url: string;
   cacheKey: string;
 };
@@ -81,8 +82,7 @@ export default async (options: Input): Promise<Output> => {
   const cacheKeyBase = `bun-${createHash("sha1").update(url).digest("base64")}`;
   const cacheKey = `${cacheKeyBase}-${options.extraKey ?? "default"}`;
   if (cacheEnabled) {
-    const cacheRestored = await restoreCache([bunPath, cachePath], cacheKey);
-    info(`cacheRestored: ${cacheRestored}, cacheKey: ${cacheKey}`)
+    const cacheRestored = await restoreCache([bunPath, cachePath], cacheKey, [cacheKeyBase]);
     if (cacheRestored) {
       revision = await getRevision(bunPath);
       if (revision) {
@@ -118,6 +118,7 @@ export default async (options: Input): Promise<Output> => {
     cacheEnabled,
     cacheHit,
     bunPath,
+    cachePath,
     url,
     cacheKey,
   };

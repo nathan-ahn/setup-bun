@@ -6,7 +6,7 @@ import { CacheState } from "./action";
   const state: CacheState = JSON.parse(getState("cache"));
   if (state.cacheEnabled && !state.cacheHit) {
     try {
-      await saveCache([state.bunPath], state.cacheKey);
+      await saveCache([state.bunPath, state.cachePath], state.cacheKey);
       process.exit(0);
     } catch (error) {
       warning("Failed to save Bun to cache.");
