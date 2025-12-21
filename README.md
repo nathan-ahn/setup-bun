@@ -71,6 +71,7 @@ If you need to override the download URL, you can use the `bun-download-url` inp
 | `bun-version`      | The version of Bun to download and install.           | `latest`    | `canary`, `1.0.0`                                |
 | `bun-version-file` | The version of Bun to download and install from file. | `undefined` | `package.json`, `.bun-version`, `.tool-versions` |
 | `bun-download-url` | URL to download .zip file for Bun release             |             |                                                  |
+| `bun-base-url`     | Base URL to download for Bun                          |             | `"https://bun.sh"`                               |
 | `registry-url`     | Registry URL where some private package is stored.    | `undefined` | `"https://npm.pkg.github.com/"`                  |
 | `scope`            | Scope for private packages.                           | `undefined` | `"@foo"`, `"@orgname"`                           |
 

@@ -19,6 +19,7 @@ import { cwd } from "node:process";
 
 export type Input = {
   customUrl?: string;
+  baseUrl?: string;
   version?: string;
   os?: string;
   arch?: string;
@@ -168,7 +169,7 @@ function getDownloadUrl(options: Input): string {
   const eprofile = encodeURIComponent(profile ?? false);
   const { href } = new URL(
     `${eversion}/${eos}/${earch}?avx2=${eavx2}&profile=${eprofile}`,
-    "https://bun.sh/download/",
+    `${options.baseUrl ?? "https://bun.sh"}/download/`,
   );
   return href;
 }

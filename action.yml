@@ -17,6 +17,9 @@ inputs:
   bun-download-url:
     description: Override the URL to download Bun from. This skips version resolution and verifying AVX2 support.
     required: false
+  bun-base-url:
+    description: Base URL to download Bun releases from.
+    required: false
   registries:
     description: |
       List of package registries with authentication support. Format:

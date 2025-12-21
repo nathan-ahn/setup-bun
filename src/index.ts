@@ -28,6 +28,7 @@ runAction({
     readVersionFromFile(getInput("bun-version-file")) ||
     undefined,
   customUrl: getInput("bun-download-url") || undefined,
+  baseUrl: getInput("bun-base-url"),
   registries: registries,
   noCache: getBooleanInput("no-cache") || false,
 })
