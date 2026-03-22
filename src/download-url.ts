@@ -8,23 +8,48 @@ import { Input } from "./action";
 import { getArchitecture, getAvx2, getPlatform, request } from "./utils";
 
 export async function getDownloadUrl(options: Input): Promise<string> {
-  const { customUrl } = options;
+  const { customUrl, baseUrl } = options;
   if (customUrl) {
     return customUrl;
   }
+  if(baseUrl) {
+    return getDownloadUrl_OLD(options);
+  }
+
 
   return await getSemverDownloadUrl(options);
 }
 
+/**
+ * Old version of getDownloadUrl which uses the old bun.sh download URL format
+ */
+function getDownloadUrl_OLD(options: Input): string {
+	const { customUrl } = options;
+	if (customUrl) {
+		return customUrl;
+	}
+	const { version, os, arch, avx2, profile } = options;
+	const eversion = encodeURIComponent(version ?? "latest");
+	const eos = encodeURIComponent(os ?? process.platform);
+	const earch = encodeURIComponent(arch ?? process.arch);
+	const eavx2 = encodeURIComponent(avx2 ?? true);
+	const eprofile = encodeURIComponent(profile ?? false);
+	const { href } = new URL(
+		`${eversion}/${eos}/${earch}?avx2=${eavx2}&profile=${eprofile}`,
+		`${options.baseUrl ?? "https://bun.sh"}/download/`,
+	);
+	return href;
+}
+
 async function getSemverDownloadUrl(options: Input): Promise<string> {
-  const { version, os, arch, avx2, profile, baseUrl } = options;
+  const { version, os, arch, avx2, profile } = options;
   let tag: string | undefined;
 
   if (validateStrict(version)) {
     tag = `bun-v${version}`;
   }
 
-  if (!tag && !baseUrl) {
+  if (!tag) {
     const res = (await (
       await request("https://api.github.com/repos/oven-sh/bun/git/refs/tags", {
         headers: options.token
@@ -77,7 +102,7 @@ async function getSemverDownloadUrl(options: Input): Promise<string> {
 
   const { href } = new URL(
     `${eversion}/bun-${eos}-${earch}${eavx2}${eprofile}.zip`,
-    baseUrl ? `${baseUrl}/download/` :"https://github.com/oven-sh/bun/releases/download/",
+    "https://github.com/oven-sh/bun/releases/download/",
   );
 
   return href;
