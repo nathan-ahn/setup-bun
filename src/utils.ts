@@ -13,8 +13,12 @@ export function getCacheKey(url: string): string {
 }
 
 export function extractVersionFromUrl(url: string): string | undefined {
-  const match = url.match(/\/bun-v([^/]+)\//);
-  return match?.[1];
+  // New GitHub release format: .../bun-v<version>/...
+  // Old bun.sh/CloudFront mirror format: .../download/<version>/<os>/<arch>?...
+  return (
+    url.match(/\/bun-v([^/]+)\//)?.[1] ??
+    url.match(/\/download\/([^/?]+)\//)?.[1]
+  );
 }
 
 export async function request(
