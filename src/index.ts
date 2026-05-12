@@ -29,6 +29,7 @@ runAction({
     readVersionFromFile("package.json", true) ||
     undefined,
   customUrl: getInput("bun-download-url") || undefined,
+  baseUrl: getInput("bun-base-url"),
   registries: registries,
   noCache: getBooleanInput("no-cache") || false,
   token: getInput("token"),

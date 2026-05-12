@@ -21,6 +21,7 @@ import { cwd } from "node:process";
 
 export type Input = {
   customUrl?: string;
+  baseUrl?: string;
   version?: string;
   os?: string;
   arch?: string;
